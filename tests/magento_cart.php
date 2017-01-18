@@ -26,6 +26,10 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
      */
     public function testAddProductToCart()
     {
+        $this->url('/');
+        sleep(2);
+        $this->assertContains("Relief Factor", $this->title());
+        
         // Purchase by homepage
         $this->byCssSelector('#home-intro .btn-buy')->click();
 
