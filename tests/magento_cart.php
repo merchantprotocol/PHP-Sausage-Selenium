@@ -28,7 +28,10 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
     {
         $this->url('/');
         sleep(2);
-        $this->assertContains("Relief Factor", $this->title());
+
+        // Validate Home Page
+        $body = $this->byXPath('//html/body');
+        $this->assertContains('cms-index-index', $body->attribute('class'));
         
         // Purchase by homepage
         $this->byCssSelector('#home-intro .btn-buy')->click();
@@ -39,6 +42,7 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
 
         // Purchase by product page
         $this->byCssSelector('#product_addtocart_form #product-shop .btn-buy')->click();
+        sleep(2);
 
         // Validate Checkout Page (Product added successfully)
         $body = $this->byXPath('//html/body');
