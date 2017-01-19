@@ -42,6 +42,6 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
 
         // Validate Checkout Page (Product added successfully)
         $body = $this->byXPath('//html/body');
-        //$this->assertContains('mp-checkout-index-index', $body->attribute('class'));
+        $this->assertContains('mp-checkout-index-index', $body->attribute('class'));
     }
 }
