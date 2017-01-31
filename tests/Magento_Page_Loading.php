@@ -1,25 +1,9 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require_once 'bootstrap.php';
 
-class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
+class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
 {
-    protected $base_url = 'http://127.0.0.1/';
-
-    public static $browsers = [
-        [
-            'browserName' => 'chrome',
-            'desiredCapabilities' => [
-                'version' => '45.0',
-                'platform' => 'OS X 10.10',
-            ],
-        ],
-    ];
-
-    const ADMIN_USERNAME    = 'denis';
-    const ADMIN_PASSWORD    = 'zavy123';
-    const ORDERS_COUNT      = 50;
-
     const PAGE_TYPE_ADMIN       = 'admin';
     const PAGE_TYPE_ORDER       = 'order';
     const PAGE_TYPE_FRONT       = 'front';
@@ -29,46 +13,6 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
     private static $customerFailList    = [];
     private static $adminFailList       = [];
     private static $orderFailList       = [];
-
-    /**
-     * Pages that don't use magento layout
-     *
-     * @var array
-     */
-    private $customLayoutPages = [
-        [
-            'link' => '/doneright/enhanced/dashboard',
-        ],
-        [
-            'link' => '/doneright/extension_local',
-        ],
-        [
-            'link' => '/doneright/adminhtml_subscribe',
-        ],
-        [
-            'link' => '/doneright/enhanced_settings',
-        ],
-        [
-            'link' => '/doneright/adminhtml_recurring/processDaily',
-        ],
-        [
-            'link' => '/doneright/adminhtml_cryozonic/check',
-        ],
-    ];
-
-    /**
-     * Frontend links
-     *
-     * @var array
-     */
-    private $frontendLinks = [
-        0 => '/the-science-research',
-        1 => '/testimonials',
-        2 => '/faq',
-        3 => '/blog',
-        4 => '/ingredients',
-        5 => '/relieffactor-quickstart-pack.html',
-    ];
 
     /**
      * Testing of pages loading in admin area
@@ -88,7 +32,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
         $links = $this->getAllAdminLinks();
 
         if (!is_array($links) || empty($links)) {
-            $this->fail('Admin links now found');
+            $this->fail('Admin links not found');
         }
 
         foreach($links as $link) {
@@ -125,7 +69,8 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
     public function testRecurringOrdersLoading() {
         $this->adminLogin();
 
-        $ordersUrl = '/doneright/adminhtml_recurring/index/limit/' . self::ORDERS_COUNT . '/';
+        $ordersCount = $this->getTestConfig()->getValue('orders_count');
+        $ordersUrl =  $this->adminUrl . '/adminhtml_recurring/index/limit/' . $ordersCount . '/';
 
         $this->url($ordersUrl);
         $this->adminPageLoading($ordersUrl, self::PAGE_TYPE_ORDER);
@@ -133,7 +78,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
         $links = $this->getAllOrdersLinks();
 
         if (!is_array($links) || empty($links)) {
-            $this->fail('Orders links now found');
+            $this->fail('Orders links not found');
         }
 
         foreach($links as $link) {
@@ -171,7 +116,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
         $links = $this->getAllFrontendLinks();
 
         if (!is_array($links) || empty($links)) {
-            $this->fail('Frontend links now found');
+            $this->fail('Frontend links not found');
         }
 
         foreach($links as $link) {
@@ -195,8 +140,10 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
      * Testing of pages loading in customer account
      *
      * 1. Create new customer account
-     * 2.
-     * 3. Login into created customer account
+     * 2. Move to account page
+     * 3. Get all links from customer account
+     * 4. Move to each link
+     * 5. Check Magento version in footer
      */
     public function testCustomerPagesLoading()
     {
@@ -209,7 +156,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
         $links = $this->getAllCustomerLinks();
 
         if (!is_array($links) || empty($links)) {
-            $this->fail('Customer links now found');
+            $this->fail('Customer links not found');
         }
 
         foreach($links as $link) {
@@ -233,7 +180,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
      * Check custom admin pages
      */
     public function customAdminPagesLoading() {
-        $dashboardLink = '/doneright/enhanced/dashboard';
+        $dashboardLink = $this->adminUrl . '/enhanced/dashboard';
 
         $this->url($dashboardLink);
 
@@ -257,11 +204,13 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
      */
     public function adminLogin()
     {
-        $this->url('/doneright');
+        $this->url($this->adminUrl);
         $this->assertContains("Log into Magento Admin Page", $this->title());
 
-        $this->byId('username')->value(self::ADMIN_USERNAME);
-        $this->byId('login')->value(self::ADMIN_PASSWORD);
+        $adminUser = $this->getTestConfig()->getValue('admin_user');
+
+        $this->byId('username')->value($adminUser['login']);
+        $this->byId('login')->value($adminUser['password']);
 
         $this->byId('loginForm')->submit();
 
@@ -366,7 +315,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
      */
     public function getAllAdminLinks()
     {
-        $this->url('/doneright');
+        $this->url($this->adminUrl);
 
         $script = "return function() {
 	        var links = document.querySelectorAll('#nav a:not([href^=\"#\"])');
@@ -420,7 +369,7 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
      */
     public function getAllFrontendLinks()
     {
-        return $this->frontendLinks;
+        return $this->getTestConfig()->getValue('frontend_links');
     }
 
     /**
@@ -461,8 +410,14 @@ class MagentoPageLoading extends Sauce\Sausage\WebDriverTestCase
             return $isCustom;
         }
 
-        foreach($this->customLayoutPages as $page) {
-            if (strpos($link, $page['link']) !== false) {
+        $customLayoutPages = $this->getTestConfig()->getValue('admin_custom_links');
+
+        if (empty($customLayoutPages)) {
+            return $isCustom;
+        }
+
+        foreach($customLayoutPages as $page) {
+            if (strpos($link, $this->adminUrl . $page) !== false) {
                 $isCustom = true;
                 break;
             }

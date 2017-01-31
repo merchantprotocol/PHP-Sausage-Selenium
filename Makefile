@@ -8,4 +8,4 @@ magento_registration:
 	vendor/bin/paratest -p 4 -f --phpunit=vendor/bin/phpunit tests/magento_registration.php
 
 magento_page_loading:
-    vendor/bin/paratest -p 4 -f --verbose --phpunit=vendor/bin/phpunit tests/Magento_Page_Loading.php
+	vendor/bin/paratest -p 4 -f --phpunit=vendor/bin/phpunit tests/Magento_Page_Loading.php
