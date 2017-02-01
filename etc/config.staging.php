@@ -2,9 +2,18 @@
 
 return [
     'base_url' => 'http://127.0.0.1/',
+    'browsers' => [
+        [
+            'browserName' => 'chrome',
+            'desiredCapabilities' => [
+                'version' => '45.0',
+                'platform' => 'OS X 10.10',
+            ],
+        ],
+    ],
     'admin_user' => [
-        'login' => 'denis',
-        'password' => 'zavy123',
+        'login' => 'your_login',
+        'password' => 'your_pass',
     ],
     'adminhtml_link' => '/doneright',
     'frontend_links' => [
