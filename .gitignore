@@ -27,3 +27,4 @@ bal Files Types       #
 .DS_Store
 
 /vendor/
+/etc/config.local.php
