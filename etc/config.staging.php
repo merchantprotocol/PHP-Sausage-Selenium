@@ -15,7 +15,7 @@ return [
         'login' => 'your_login',
         'password' => 'your_pass',
     ],
-    'adminhtml_link' => '/doneright',
+    'adminhtml_link' => '/admin',
     'frontend_links' => [
         '/the-science-research',
         '/testimonials',
