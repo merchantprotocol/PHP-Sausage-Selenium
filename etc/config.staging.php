@@ -12,8 +12,8 @@ return [
         ],
     ],
     'admin_user' => [
-        'login' => 'your_login',
-        'password' => 'your_pass',
+        'login' => '',
+        'password' => '',
     ],
     'adminhtml_link' => '/admin',
     'frontend_links' => [
