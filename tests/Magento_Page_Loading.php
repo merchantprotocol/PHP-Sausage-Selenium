@@ -30,6 +30,9 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
     public function testAdminPagesLoading()
     {
         $this->adminLogin();
+
+        if (!$this->isLogin) return;
+
         $this->adminPageLoading($this->url(), self::PAGE_TYPE_ADMIN);
 
         $this->customAdminPagesLoading();
@@ -71,8 +74,12 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      * 3. Move to each link
      * 4. Check Magento version in footer
      */
-    public function testRecurringOrdersLoading() {
+    public function testRecurringOrdersLoading()
+    {
         $this->adminLogin();
+
+        if (!$this->isLogin) return;
+
         $this->adminPageLoading($this->url(), self::PAGE_TYPE_ADMIN);
 
         $ordersCount = $this->getTestConfig()->getValue('orders_count');
@@ -185,7 +192,8 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
     /**
      * Check custom admin pages
      */
-    public function customAdminPagesLoading() {
+    public function customAdminPagesLoading()
+    {
         $dashboardLink = $this->adminUrl . '/enhanced/dashboard';
 
         $this->url($dashboardLink);

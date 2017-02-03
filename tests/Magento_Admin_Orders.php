@@ -43,7 +43,10 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      *
      * TODO: Use test customer from config
      */
-    public function testOrderCreateExistingCustomer() {
+    public function testOrderCreateExistingCustomer()
+    {
+        if (!$this->isLogin) return;
+
         $this->moveToCreateOrderPage();
 
         // Select first customer
@@ -84,6 +87,8 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function testOrderCreateNewCustomer()
     {
+        if (!$this->isLogin) return;
+
         $addCustomer = $this->moveToCreateOrderPage();
         $addCustomer->click();
 
@@ -122,6 +127,8 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function testEditOrder()
     {
+        if (!$this->isLogin) return;
+
         $this->url($this->adminUrl . '/sales_order');
 
         //Get order number
