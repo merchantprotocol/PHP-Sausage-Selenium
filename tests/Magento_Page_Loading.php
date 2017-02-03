@@ -25,7 +25,7 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      */
     public function testAdminPagesLoading()
     {
-        $this->adminLogin();
+        if (!$this->adminLogin()) return;
 
         $this->customAdminPagesLoading();
 
@@ -66,8 +66,9 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      * 3. Move to each link
      * 4. Check Magento version in footer
      */
-    public function testRecurringOrdersLoading() {
-        $this->adminLogin();
+    public function testRecurringOrdersLoading()
+    {
+        if (!$this->adminLogin()) return;
 
         $ordersCount = $this->getTestConfig()->getValue('orders_count');
         $ordersUrl =  $this->adminUrl . '/adminhtml_recurring/index/limit/' . $ordersCount . '/';
@@ -179,7 +180,8 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
     /**
      * Check custom admin pages
      */
-    public function customAdminPagesLoading() {
+    public function customAdminPagesLoading()
+    {
         $dashboardLink = $this->adminUrl . '/enhanced/dashboard';
 
         $this->url($dashboardLink);
@@ -204,10 +206,11 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      */
     public function adminLogin()
     {
+        $adminUser = $this->getTestConfig()->getValue('admin_user');
+	if (!$adminUser['login']) return false;
+	
         $this->url($this->adminUrl);
         $this->assertContains("Log into Magento Admin Page", $this->title());
-
-        $adminUser = $this->getTestConfig()->getValue('admin_user');
 
         $this->byId('username')->value($adminUser['login']);
         $this->byId('login')->value($adminUser['password']);
