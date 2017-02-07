@@ -2,8 +2,12 @@
 
 require_once 'bootstrap.php';
 
+use MP\Fixtures\Admin\AdminLogin;
+
 class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
 {
+    use AdminLogin;
+
     const PAGE_TYPE_ADMIN       = 'admin';
     const PAGE_TYPE_ORDER       = 'order';
     const PAGE_TYPE_FRONT       = 'front';
@@ -25,7 +29,11 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      */
     public function testAdminPagesLoading()
     {
-        if (!$this->adminLogin()) return;
+        $this->adminLogin();
+
+        if (!$this->isLogin) return;
+
+        $this->adminPageLoading($this->url(), self::PAGE_TYPE_ADMIN);
 
         $this->customAdminPagesLoading();
 
@@ -68,7 +76,11 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
      */
     public function testRecurringOrdersLoading()
     {
-        if (!$this->adminLogin()) return;
+        $this->adminLogin();
+
+        if (!$this->isLogin) return;
+
+        $this->adminPageLoading($this->url(), self::PAGE_TYPE_ADMIN);
 
         $ordersCount = $this->getTestConfig()->getValue('orders_count');
         $ordersUrl =  $this->adminUrl . '/adminhtml_recurring/index/limit/' . $ordersCount . '/';
@@ -196,34 +208,9 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
     }
 
     /**
-     * Login into admin area
-     *
-     * 1. Move to admin area
-     * 2. Check title
-     * 3. Set username and password
-     * 4. Submit
-     * 5. Check page loading
-     */
-    public function adminLogin()
-    {
-        $adminUser = $this->getTestConfig()->getValue('admin_user');
-	if (!$adminUser['login']) return false;
-	
-        $this->url($this->adminUrl);
-        $this->assertContains("Log into Magento Admin Page", $this->title());
-
-        $this->byId('username')->value($adminUser['login']);
-        $this->byId('login')->value($adminUser['password']);
-
-        $this->byId('loginForm')->submit();
-
-        $this->adminPageLoading($this->url(), self::PAGE_TYPE_ADMIN);
-    }
-
-    /**
      * Creates a new customer account
      *
-     * TODO: remove function and use sharedFixture instead
+     * TODO: use test customer from config instead
      */
     public function create()
     {
