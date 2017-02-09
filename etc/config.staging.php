@@ -12,10 +12,14 @@ return [
         ],
     ],
     'admin_user' => [
-        'login' => '',
-        'password' => '',
+        'login'     => '',
+        'password'  => '',
     ],
     'adminhtml_link' => '/admin',
+    'customer' => [
+        'login'     => '',
+        'password'  => '',
+    ],
     'frontend_links' => [
         '/the-science-research',
         '/testimonials',
