@@ -43,6 +43,8 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
         // Purchase by product page
         $this->byCssSelector('#product_addtocart_form #product-shop .btn-buy')->click();
         sleep(2);
+        
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
 
         // Validate Checkout Page (Product added successfully)
         $body = $this->byXPath('//html/body');
