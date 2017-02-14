@@ -1,6 +1,5 @@
 run_all_in_parallel:
-	make -j magento_cart magento_registration
-	make -j magento_page_loading magento_admin_orders
+	make -j2 magento_cart magento_registration magento_page_loading magento_admin_orders
 
 magento_cart:
 	vendor/bin/paratest -p 4 -f --phpunit=vendor/bin/phpunit tests/magento_cart.php
