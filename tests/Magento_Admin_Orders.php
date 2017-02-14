@@ -225,6 +225,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     {
         // Add new address, same for shipping and billing
         if ($addNew) {
+            $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
             $this->select($this->byId('order-billing_address_customer_address_id'))
                 ->selectOptionByLabel('Add New Address');
 
