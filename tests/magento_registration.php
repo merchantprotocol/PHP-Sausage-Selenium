@@ -86,6 +86,7 @@ class AccountTestCase extends Sauce\Sausage\WebDriverTestCase
         $this->byId('password')->value('1q2w3e4r');
         $this->byId('confirmation')->value('1q2w3e4r');
 
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
         $this->byXPath('//*[@id="form-validate"]/*/button[contains(@class,"button")]')->click();
         sleep(2);
         $this->assertContains("Account", $this->title());
