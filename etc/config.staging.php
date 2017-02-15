@@ -12,10 +12,14 @@ return [
         ],
     ],
     'admin_user' => [
-        'login' => 'merchantprotocol',
-        'password' => 'merchantprotocol123',
+        'login'     => 'merchantprotocol',
+        'password'  => 'merchantprotocol123',
     ],
     'adminhtml_link' => '/admin',
+    'customer' => [
+        'login'     => '',
+        'password'  => '',
+    ],
     'frontend_links' => [
         '/the-science-research',
         '/testimonials',
