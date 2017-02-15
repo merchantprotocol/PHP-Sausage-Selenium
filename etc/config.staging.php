@@ -12,8 +12,8 @@ return [
         ],
     ],
     'admin_user' => [
-        'login'     => '',
-        'password'  => '',
+        'login'     => 'merchantprotocol',
+        'password'  => 'merchantprotocol123',
     ],
     'adminhtml_link' => '/admin',
     'customer' => [
