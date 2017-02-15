@@ -234,7 +234,7 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
         $this->select($this->byId('cryozonic_stripe_expiration'))
             ->selectOptionByValue(1);
         $this->select($this->byId('cryozonic_stripe_expiration_yr'))
-            ->selectOptionByValue(2020);
+            ->selectOptionByValue(date('Y', strtotime('+1 year')));
         $this->byId('cryozonic_stripe_cc_cid')->value('555');
     }
 
