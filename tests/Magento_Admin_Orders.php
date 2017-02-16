@@ -326,6 +326,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
             ->selectOptionByValue(2020);
         $this->byId('cryozonic_stripe_cc_cid')->value('555');
 
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
         sleep(2);
