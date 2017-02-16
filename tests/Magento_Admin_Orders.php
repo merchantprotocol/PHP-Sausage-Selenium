@@ -310,6 +310,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     public function setPaymentInfo($isNewCard = true)
     {
         if (!$isNewCard) {
+            $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
             $this->byXPath('//*[@id="saved-cards"]/li[1]/input')->click();
 
             sleep(2);
