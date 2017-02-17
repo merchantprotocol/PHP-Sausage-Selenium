@@ -311,10 +311,9 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     {
         if (!$isNewCard) {
             $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
-            $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
             $this->byXPath('//*[@id="saved-cards"]/li[1]/input')->click();
 
-            sleep(2);
+            sleep(5);
 
             return $isNewCard;
         }
@@ -342,9 +341,10 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     public function setShippingInfo()
     {
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
-        $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
+        $this->byXPath('//*[@id="order-shipping_method"]/button')->click();
+        //$this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
-        sleep(2);
+        sleep(5);
 
         $this->byXPath('//*[@id="order-shipping-method-choose"]/dl/dd[1]/ul/li/input')
             ->click();
