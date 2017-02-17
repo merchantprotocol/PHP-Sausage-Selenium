@@ -311,6 +311,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     {
         if (!$isNewCard) {
             $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+            $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
             $this->byXPath('//*[@id="saved-cards"]/li[1]/input')->click();
 
             sleep(2);
