@@ -245,6 +245,8 @@ class MagentoPageLoading extends MP\Sauce\WebDriverTestCase
             $this->fail('Link is not a string');
         }
 
+        sleep(2);
+
         try {
             $el = $this->byXPath("//*[@id=\"html-body\"]/div[1]/div[3]");
 
