@@ -29,9 +29,12 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
         $this->url('/');
         sleep(2);
 
+        $body = $this->byXPath('//*[@id="current_version"]/strong');
+        $this->assertNotNull($body->text());
+        
         // Validate Home Page
-        $body = $this->byXPath('//html/body');
-        $this->assertContains('cms-index-index', $body->attribute('class'));
+        //$body = $this->byXPath('//html/body');
+        //$this->assertContains('cms-index-index', $body->attribute('class'));
         
         // Purchase by homepage
         $this->byCssSelector('#home-intro .btn-buy')->click();
