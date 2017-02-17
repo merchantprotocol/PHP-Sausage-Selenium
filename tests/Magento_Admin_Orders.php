@@ -341,8 +341,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     public function setShippingInfo()
     {
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
-        $this->byXPath('//*[@id="order-shipping_method"]/button')->click();
-        //$this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
+        $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
         sleep(5);
 
