@@ -356,6 +356,8 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function saveOrder()
     {
+        sleep(4);
+
         $this->byXPath('//*[@id="order-totals"]/div/div[2]/p[3]/button')->click();
 
         $message = $this->byXPath('//*[@id="messages"]/ul/li/ul/li/span');
