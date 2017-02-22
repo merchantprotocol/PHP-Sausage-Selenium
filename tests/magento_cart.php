@@ -44,7 +44,7 @@ class MagentoCart extends Sauce\Sausage\WebDriverTestCase
         $this->assertContains('catalog-product-view', $body->attribute('class'));
 
         // Purchase by product page
-        $this->byCssSelector('#product_addtocart_form #product-shop .btn-buy')->click();
+        $this->byCssSelector('#product-efile-box .btn-buy')->click();
         sleep(2);
         
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
