@@ -3,10 +3,11 @@
 require_once 'bootstrap.php';
 
 use MP\Fixtures\Admin\AdminLogin;
+use MP\Fixtures\App\Service;
 
 class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
 {
-    use AdminLogin;
+    use AdminLogin, Service;
 
     /**
      * Admin login before start tests
@@ -343,12 +344,18 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
-        sleep(5);
+        $this->waitUntilHide(
+            '#loading-mask',
+            10
+        );
 
         $this->byXPath('//*[@id="order-shipping-method-choose"]/dl/dd[1]/ul/li/input')
             ->click();
 
-        sleep(4);
+        $this->waitUntilHide(
+            '#loading-mask',
+            10
+        );
     }
 
     /**
@@ -356,7 +363,10 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function saveOrder()
     {
-        sleep(4);
+        $this->waitUntilHide(
+            '#loading-mask',
+            10
+        );
 
         $this->byXPath('//*[@id="order-totals"]/div/div[2]/p[3]/button')->click();
 
