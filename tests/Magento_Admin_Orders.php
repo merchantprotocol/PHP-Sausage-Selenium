@@ -344,7 +344,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
-        $this->waitUntilHide(
+        $this->waitForHidden(
             '#loading-mask',
             10
         );
@@ -352,7 +352,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         $this->byXPath('//*[@id="order-shipping-method-choose"]/dl/dd[1]/ul/li/input')
             ->click();
 
-        $this->waitUntilHide(
+        $this->waitForHidden(
             '#loading-mask',
             10
         );
@@ -363,12 +363,17 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function saveOrder()
     {
-        $this->waitUntilHide(
+        $this->waitForHidden(
             '#loading-mask',
             10
         );
 
         $this->byXPath('//*[@id="order-totals"]/div/div[2]/p[3]/button')->click();
+
+        $this->waitForDisplayed(
+            '#messages ul',
+            10
+        );
 
         $message = $this->byXPath('//*[@id="messages"]/ul/li/ul/li/span');
         $this->assertContains('The order has been created', $message->text());
