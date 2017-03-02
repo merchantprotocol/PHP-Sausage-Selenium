@@ -378,7 +378,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
             10
         );
         
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEUP);
 
         sleep(10);
         
@@ -397,7 +397,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function setShippingInfo()
     {
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEUP);
 
         $this->waitForHidden(
             '#loading-mask',
