@@ -342,19 +342,45 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         }
 
         $this->byId('cryozonic_stripe_cc_owner')->value('Test Owner');
-        $this->byId('cryozonic_stripe_cc_number')->value('4242424242424242');
-        $this->select($this->byId('cryozonic_stripe_expiration'))
-            ->selectOptionByValue(1);
-        $this->select($this->byId('cryozonic_stripe_expiration_yr'))
-            ->selectOptionByValue(2020);
-        $this->byId('cryozonic_stripe_cc_cid')->value('555');
-
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
 
         $this->waitForHidden(
             '#loading-mask',
             10
         );
+        
+        $this->byId('cryozonic_stripe_cc_number')->value('4242424242424242');
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
+        $this->select($this->byId('cryozonic_stripe_expiration'))
+            ->selectOptionByValue(1);
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
+        $this->select($this->byId('cryozonic_stripe_expiration_yr'))
+            ->selectOptionByValue(2020);
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
+        $this->byId('cryozonic_stripe_cc_cid')->value('555');
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+
+        sleep(10);
         
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
