@@ -59,4 +59,40 @@ trait Service
 
         }, $timeout * 1000);
     }
+
+    /**
+     * Scroll container to item
+     * 
+     * @param string $container element id
+     * @param string $item element id
+     * @return bool
+     */
+    protected function scrollTo($container, $item)
+    {
+        if (!is_string($container) || !is_string($item)) {
+            return false;
+        }
+
+        $script = "return function() {
+	        var scrollContainer = document.getElementById('{$container}');
+            var item = document.getElementById('{$item}');
+        
+            if (!scrollContainer || !item) {
+                return false;
+            }
+        
+            scrollContainer.scrollTop = item.offsetTop;
+        
+            return true;
+        }();";
+
+        $result = $this->execute(
+            array(
+                'script' => $script,
+                'args' => array()
+            )
+        );
+        
+        return $result ? true : false;
+    }
 }

@@ -378,10 +378,10 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
             10
         );
         
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEUP);
-
         sleep(10);
-        
+
+        // Scroll to element and click
+        $this->scrollTo('html-body','order-shipping_method');
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
         $this->waitForHidden(
@@ -397,13 +397,13 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function setShippingInfo()
     {
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEUP);
-
         $this->waitForHidden(
             '#loading-mask',
             10
         );
         
+        // Scroll to element and click
+        $this->scrollTo('html-body','order-shipping_method');
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
         $this->waitForHidden(
