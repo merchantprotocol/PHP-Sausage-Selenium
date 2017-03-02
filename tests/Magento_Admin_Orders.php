@@ -67,7 +67,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
 
         // Set shipping before payment, or shipping will reset payment info
         $this->setShippingInfo();
-        $this->setPaymentInfo(false);
+        $this->setPaymentInfo();
 
         // Save order
         $this->saveOrder();
@@ -166,7 +166,7 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
 
         // Set shipping before payment, or shipping will reset payment info
         $this->setShippingInfo();
-        $this->setPaymentInfo(false);
+        $this->setPaymentInfo();
 
         // Save order
         $this->saveOrder();
@@ -304,19 +304,41 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     /**
      * Set info for new card or select saved
      * Payment block should lose focus before set shipping info
-     *
-     * @param bool $isNewCard
-     * @return bool
      */
-    public function setPaymentInfo($isNewCard = true)
+    public function setPaymentInfo()
     {
-        if (!$isNewCard) {
-            $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
+        // Check if customer has saved cards 
+        $script = "return function() {
+	        var cards = document.querySelectorAll('#saved-cards li input');
+        
+            return cards.length > 0 ? true : false;
+        }();";
+
+        $savedCards = $this->execute(
+            array(
+                'script' => $script,
+                'args' => array()
+            )
+        );
+        
+        // Select saved card
+        if ($savedCards) {
             $this->byXPath('//*[@id="saved-cards"]/li[1]/input')->click();
 
-            sleep(5);
+            $this->waitForHidden(
+                '#loading-mask',
+                10
+            );
 
-            return $isNewCard;
+            return;
         }
 
         $this->byId('cryozonic_stripe_cc_owner')->value('Test Owner');
@@ -328,12 +350,20 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         $this->byId('cryozonic_stripe_cc_cid')->value('555');
 
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
-        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
-        sleep(2);
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
 
-        return $isNewCard;
+        return;
     }
 
     /**
@@ -342,6 +372,12 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
     public function setShippingInfo()
     {
         $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+
+        $this->waitForHidden(
+            '#loading-mask',
+            10
+        );
+        
         $this->byXPath('//*[@id="order-shipping-method-summary"]/a')->click();
 
         $this->waitForHidden(
