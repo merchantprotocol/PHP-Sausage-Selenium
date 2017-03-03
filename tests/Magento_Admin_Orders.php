@@ -65,9 +65,16 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         // Add new address
         $this->setCustomerAddress('_existing', true);
 
-        // Set shipping before payment, or shipping will reset payment info
-        $this->setShippingInfo();
-        $this->setPaymentInfo();
+        // Check if customer has saved card
+        $savedCard = $this->isSavedCard();
+        
+        if ($savedCard) {
+            $this->setShippingInfo();
+            $this->setPaymentInfo();
+        } else {
+            $this->setPaymentInfo();
+            $this->setShippingInfo();
+        }
 
         // Save order
         $this->saveOrder();
@@ -315,22 +322,10 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
             10
         );
         
-        // Check if customer has saved cards 
-        $script = "return function() {
-	        var cards = document.querySelectorAll('#saved-cards li input');
-        
-            return cards.length > 0 ? true : false;
-        }();";
-
-        $savedCards = $this->execute(
-            array(
-                'script' => $script,
-                'args' => array()
-            )
-        );
+        $savedCard = $this->isSavedCard();
         
         // Select saved card
-        if ($savedCards) {
+        if ($savedCard) {
             $this->byXPath('//*[@id="saved-cards"]/li[1]/input')->click();
 
             $this->waitForHidden(
@@ -372,11 +367,6 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         );
         
         $this->byId('cryozonic_stripe_cc_cid')->value('555');
-
-        $this->waitForHidden(
-            '#loading-mask',
-            10
-        );
         
         sleep(10);
 
@@ -392,6 +382,28 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
         return;
     }
 
+    /**
+     * Check if customer has saved card
+     * 
+     * @return string
+     */
+    public function isSavedCard()
+    {
+        // Check if customer has saved cards 
+        $script = "return function() {
+	        var cards = document.querySelectorAll('#saved-cards li input');
+        
+            return cards.length > 0 ? true : false;
+        }();";
+
+        return $this->execute(
+            array(
+                'script' => $script,
+                'args' => array()
+            )
+        );
+    }
+    
     /**
      * Set shipping info
      */
@@ -425,6 +437,8 @@ class MagentoAdminOrders extends MP\Sauce\WebDriverTestCase
      */
     public function saveOrder()
     {
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+        
         $this->waitForHidden(
             '#loading-mask',
             10
