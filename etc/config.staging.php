@@ -36,5 +36,5 @@ return [
         '/adminhtml_recurring/processDaily',
         '/adminhtml_cryozonic/check',
     ],
-    'orders_count' => 50
+    'orders_count' => 20
 ];

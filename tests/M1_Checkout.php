@@ -19,6 +19,7 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
     const SETTING_GROUP_STYLE           = 'styles';
     const SETTING_GROUP_VERIFICATION    = 'verification';
     const SETTING_GROUP_AUTO_COMPETE    = 'autocomplete';
+    const SETTING_GROUP_AUTO_UP_SELL    = 'upsell';
 
     const LAYOUT_ONE_STEP   = 2;
     const LAYOUT_MULTI_STEP = 1;
@@ -133,6 +134,11 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
                         'group' => self::SETTING_GROUP_AUTO_COMPETE,
                         'field' => 'active',
                         'value' => 1
+                    ],
+                    [
+                        'group' => self::SETTING_GROUP_AUTO_UP_SELL,
+                        'field' => 'active',
+                        'value' => 0
                     ]
                 ],
                 ['isVerified' => false],
