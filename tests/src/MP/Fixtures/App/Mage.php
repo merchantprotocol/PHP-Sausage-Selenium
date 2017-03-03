@@ -10,7 +10,7 @@ trait Mage
      */
     protected function initMage()
     {
-        require_once realpath(__DIR__ . "/../../../../../../../app/Mage.php");
+        require_once realpath(__DIR__ . "/../../../../../../app/Mage.php");
         \Mage::app('default');
     }
 }
