@@ -775,6 +775,8 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
         // Purchase by homepage
         $this->byCssSelector('#home-intro .btn-buy')->click();
 
+        sleep(4);
+        
         // Validate Product Page
         $body = $this->byXPath('//html/body');
         $this->assertContains('catalog-product-view', $body->attribute('class'));
