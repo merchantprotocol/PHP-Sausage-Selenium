@@ -761,15 +761,16 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
     /**
      * Add product to cart
      * Redirect to checkout page
+     * 
+     * TODO: use fixture instead
      */
     protected function addProduct()
     {
         $this->url('/');
         sleep(2);
 
-        // Validate Home Page
-        $body = $this->byXPath('//html/body');
-        $this->assertContains('cms-index-index', $body->attribute('class'));
+        $body = $this->byXPath('//*[@id="current_version"]/strong');
+        $this->assertNotNull($body->text());
 
         // Purchase by homepage
         $this->byCssSelector('#home-intro .btn-buy')->click();
@@ -779,7 +780,8 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
         $this->assertContains('catalog-product-view', $body->attribute('class'));
 
         // Purchase by product page
-        $this->byCssSelector('#product_addtocart_form #product-shop .btn-buy')->click();
+        $this->byCssSelector('#product-efile-box .btn-buy')->click();
+        sleep(2);
     }
 
     /**
