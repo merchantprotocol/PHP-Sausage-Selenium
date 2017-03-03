@@ -781,6 +781,8 @@ class MpCheckout extends MP\Sauce\WebDriverTestCase
         $body = $this->byXPath('//html/body');
         $this->assertContains('catalog-product-view', $body->attribute('class'));
 
+        $this->keys(PHPUnit_Extensions_Selenium2TestCase_Keys::PAGEDOWN);
+        
         // Purchase by product page
         $this->byCssSelector('#product-efile-box .btn-buy')->click();
         sleep(2);
