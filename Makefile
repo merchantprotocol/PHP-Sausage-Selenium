@@ -5,7 +5,7 @@ magento_cart:
 	vendor/bin/paratest -p 1 -f --phpunit=vendor/bin/phpunit tests/magento_cart.php
 
 magento_registration:
-	vendor/bin/paratest -p 1 -f --phpunit=vendor/bin/phpunit tests/magento_registration.php
+	vendor/bin/paratest -p 1 -f --phpunit=vendor/bin/phpunit tests/Magento_Customer_Account.php
 
 magento_page_loading:
 	vendor/bin/paratest -p 1 -f --phpunit=vendor/bin/phpunit tests/Magento_Page_Loading.php
